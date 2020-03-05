@@ -1,5 +1,10 @@
 */.ipynb_checkpoints/*
 .ipynb_checkpoints/*
+
 */mispepinillos/*
 .mispepinillos/*
+
+*/.vscode/*
+.vscode/*
+
 *.pkl
