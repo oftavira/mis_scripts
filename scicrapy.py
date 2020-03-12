@@ -140,7 +140,7 @@ def PagesNANO(query, cut = 12):
     init_uri  = NANO_S+'"'+format(query)+'"'+NANO_E+str(1)+NANO_P
     init_soup = SwitchKitchen(init_uri,kitchen = "requests")
     end_pages = init_soup.findChild("span",{"class":"Pagination_numOfPages"})
-    num_of_pgs= int(end_pages.get_text())
+    num_of_pgs= int(end_pages.get_text().replace("\n","").replace(" ","").replace(",",""))
     if num_of_pgs<12:
         for i in range(1,num_of_pgs+1):
             raw_pages.append(souparticlesNANO(query, i))
