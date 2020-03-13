@@ -3,12 +3,13 @@
 #
 #
 
-from urllib import request
-from time   import sleep
-from bs4    import BeautifulSoup
+from urllib   import request
+from time     import sleep
+from bs4      import BeautifulSoup
 
-import requests
+import numpy  as np
 import pandas as pd
+import requests
 import re
 
 # Links for IOP search
@@ -196,7 +197,7 @@ def stringifyNANO(raw_pages):
                 authors_str = [author.getText().replace("\n","") for author in authors_tag]
 
                 begi        =     miscel[0].getText().find("(")
-                year        =     int(miscel[0].getText()[begi+1:begi+5].replace(" ",""))                                                # 5 Year
+                year        =     miscel[0].getText()[begi+1:begi+5]                                                # 5 Year
 
                 arts_db.append([title, abstract, DOI, journal, authors_str, year])
             except:
@@ -265,5 +266,41 @@ def pandas_dataframe(all_arts, name):
 
 """==============================================================================================================================="""
 
+def geve_art(art_num, dataframe):
+    print(dataframe.iloc[art_num]["Abstract"].replace("\n", ""))
+    print("\n")
+    print(dataframe.iloc[art_num]["Title"].replace("\n", ""))
+    print("\n")
+    print(dataframe.iloc[art_num]["Year"])
+    print("\n")
+    print(dataframe.iloc[art_num]["DOI"])
+    print("\n")
+    print(dataframe.iloc[art_num]["Journal"])
+    return;
 
+"""==============================================================================================================================="""
 
+def dbsearch(word, db):
+    ls = []
+    for i in range(0,len(db)):
+        if word in db.iloc[i]["Abstract"].lower():
+            ls.append(i)
+        else:
+            pass
+    new_db = db.iloc [ls]
+    new_index = len(new_db)
+    new_db.set_index(np.arange(0,new_index),inplace=True)
+    return new_db; 
+
+"""==============================================================================================================================="""
+
+def cite_manager(art, com, db = pd.Series([])):
+    if db.empty:
+        art = art.to_frame().transpose()
+        art = art.assign(comment = [com])
+        return art;
+    else:
+        art = art.to_frame().transpose()
+        art = art.assign(comment = [com])
+        db  = pd.concat([db,art], ignore_index=True, copy=False)
+        return db;
