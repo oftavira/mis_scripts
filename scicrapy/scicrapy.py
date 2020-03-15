@@ -212,16 +212,16 @@ def stringifyNANO(raw_pages):
 def query(terms):
     all_arts = []
 
-    query_raw_iop  = PagesIOP(terms)
+    # query_raw_iop  = PagesIOP(terms)
     query_raw_nano = PagesNANO(terms)
 
-    IOP_DB         = stringifyIOP(query_raw_iop)
+    # IOP_DB         = stringifyIOP(query_raw_iop)
     NANO_DB        = stringifyNANO(query_raw_nano)
 
     for article in NANO_DB:
         all_arts.append(article)
-    for article in IOP_DB:
-        all_arts.append(article)
+    # for article in IOP_DB:
+    #     all_arts.append(article)
 
     return all_arts;
 
